@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D74BF94E1EB38B42007AB942 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D74BF94D1EB38B42007AB942 /* GameViewController.swift */; };
 		D7811E1B1EB248750050D8B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7811E1A1EB248750050D8B5 /* AppDelegate.swift */; };
 		D7811E1D1EB248750050D8B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7811E1C1EB248750050D8B5 /* ViewController.swift */; };
 		D7811E201EB248750050D8B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D7811E1E1EB248750050D8B5 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D74BF94D1EB38B42007AB942 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		D7811E171EB248750050D8B5 /* Anthophobia.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Anthophobia.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7811E1A1EB248750050D8B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7811E1C1EB248750050D8B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 				D7811E1C1EB248750050D8B5 /* ViewController.swift */,
 				D7811E2C1EB24A510050D8B5 /* GameScene.swift */,
 				D7811E1E1EB248750050D8B5 /* Main.storyboard */,
+				D74BF94D1EB38B42007AB942 /* GameViewController.swift */,
 				D7811E211EB248750050D8B5 /* Assets.xcassets */,
 				D7811E231EB248750050D8B5 /* LaunchScreen.storyboard */,
 				D7811E261EB248750050D8B5 /* Info.plist */,
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D74BF94E1EB38B42007AB942 /* GameViewController.swift in Sources */,
 				D7811E2D1EB24A510050D8B5 /* GameScene.swift in Sources */,
 				D7811E1D1EB248750050D8B5 /* ViewController.swift in Sources */,
 				D7811E1B1EB248750050D8B5 /* AppDelegate.swift in Sources */,
@@ -308,6 +312,7 @@
 				D7811E2B1EB248750050D8B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
