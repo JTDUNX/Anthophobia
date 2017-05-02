@@ -7,5 +7,6 @@ class GameViewController : UIViewController {
         let screenSize : CGSize = self.view.frame.size
         gameView = SKView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height))
         gameView?.presentScene(GameScene(size: screenSize))
+        view.addSubview(gameView!)
     }
 }
