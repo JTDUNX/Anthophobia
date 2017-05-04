@@ -46,7 +46,13 @@ class GameScene: SKScene {
         fallingFlower.run(SKAction.moveTo(y: -20, duration: speed))
     }
     func addBottomFlower() {
-        let risingFlower = SKSpriteNode(color: UIColor.red, size: CGSize(width: 10.0, height: 10.0))
+        var risingFlower : SKSpriteNode!
+        let coinCheck = Int(arc4random_uniform(6))
+        if coinCheck == 5 {
+            risingFlower = SKSpriteNode(imageNamed: "coin")
+        } else {
+            risingFlower = SKSpriteNode(imageNamed: "redFlower")
+        }
         addChild(risingFlower)
         let isle = Int(arc4random_uniform(3))
         if isle == 0 {
