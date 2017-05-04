@@ -2,17 +2,15 @@ import Foundation
 import SpriteKit
 
 class GameScene: SKScene {
-    //add image for player
-    let player : SKSpriteNode = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 10.0, height: 10.0))
-    //add image for coins
-    let coin : SKSpriteNode = SKSpriteNode(color: UIColor.yellow, size: CGSize(width: 10.0, height: 10.0))
-    //add image for flowers
-    let flower : SKSpriteNode = SKSpriteNode(color: UIColor.red, size: CGSize(width: 10.0, height: 10.0))
+    var circleSize : Int = 0
+    let player : SKSpriteNode = SKSpriteNode(imageNamed: "player")
     override func sceneDidLoad() {
+        circleSize = Int(size.width / 12)
+        player.size = CGSize(width: 60, height: 60)
         player.run(SKAction.move(to: CGPoint(x: size.width / 2, y: size.height / 2), duration: 0.0))
             addChild(player)
-        player.run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addTopFlower),SKAction.wait(forDuration: 1.0)])))
-        player.run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBottomFlower),SKAction.wait(forDuration: 1.0)])))
+        player.run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addTopFlower),SKAction.wait(forDuration: 1.25)])))
+        player.run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBottomFlower),SKAction.wait(forDuration: 1.25)])))
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
@@ -32,18 +30,25 @@ class GameScene: SKScene {
         player.run(SKAction.moveTo(x: size.width / 2, duration: 0.1))
     }
     func addTopFlower() {
-        let fallingFlower = SKSpriteNode(color: UIColor.red, size: CGSize(width: 10.0, height: 10.0))
-        addChild(fallingFlower)
+        var fallingFlower : SKSpriteNode!
+        let coinCheck = Int(arc4random_uniform(6))
+        if coinCheck == 5 {
+            fallingFlower = SKSpriteNode(imageNamed: "coin")
+        } else {
+           fallingFlower = SKSpriteNode(imageNamed: "redFlower")
+        }
+        fallingFlower.size = CGSize(width: 60, height: 60)
         let isle = Int(arc4random_uniform(3))
         if isle == 0 {
-            fallingFlower.run(SKAction.moveBy(x: size.width / 6, y: size.height + 20, duration: 0.0))
+            fallingFlower.run(SKAction.moveBy(x: size.width / 6, y: size.height + (CGFloat)(circleSize), duration: 0.0))
         } else if isle == 1 {
-            fallingFlower.run(SKAction.moveBy(x: size.width / 2, y: size.height + 20, duration: 0.0))
+            fallingFlower.run(SKAction.moveBy(x: size.width / 2, y: size.height + (CGFloat)(circleSize), duration: 0.0))
         } else {
-            fallingFlower.run(SKAction.moveBy(x: 5 * size.width / 6, y: size.height + 20, duration: 0.0))
+            fallingFlower.run(SKAction.moveBy(x: 5 * size.width / 6, y: size.height + (CGFloat)(circleSize), duration: 0.0))
         }
+        addChild(fallingFlower)
         let speed = TimeInterval(2 + Float(arc4random_uniform(4)) / 2)
-        fallingFlower.run(SKAction.moveTo(y: -20, duration: speed))
+        fallingFlower.run(SKAction.moveTo(y: -(CGFloat)(circleSize), duration: speed))
     }
     func addBottomFlower() {
         var risingFlower : SKSpriteNode!
@@ -53,16 +58,17 @@ class GameScene: SKScene {
         } else {
             risingFlower = SKSpriteNode(imageNamed: "redFlower")
         }
-        addChild(risingFlower)
+        risingFlower.size = CGSize(width: 60, height: 60)
         let isle = Int(arc4random_uniform(3))
         if isle == 0 {
-            risingFlower.run(SKAction.moveBy(x: size.width / 6, y: -20, duration: 0.0))
+            risingFlower.run(SKAction.moveBy(x: size.width / 6, y: -(CGFloat)(circleSize), duration: 0.0))
         } else if isle == 1 {
-            risingFlower.run(SKAction.moveBy(x: size.width / 2, y: -20, duration: 0.0))
+            risingFlower.run(SKAction.moveBy(x: size.width / 2, y: -(CGFloat)(circleSize), duration: 0.0))
         } else {
-            risingFlower.run(SKAction.moveBy(x: 5 * size.width / 6, y: -20, duration: 0.0))
+            risingFlower.run(SKAction.moveBy(x: 5 * size.width / 6, y: -(CGFloat)(circleSize), duration: 0.0))
         }
+        addChild(risingFlower)
         let speed = TimeInterval(2 + Float(arc4random_uniform(4)) / 2)
-        risingFlower.run(SKAction.moveTo(y: size.height + 20, duration: speed))
+        risingFlower.run(SKAction.moveTo(y: size.height + (CGFloat)(circleSize), duration: speed))
     }
 }
