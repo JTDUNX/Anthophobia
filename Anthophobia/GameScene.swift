@@ -5,6 +5,8 @@ class GameScene: SKScene {
     var circleSize : Int = 0
     let player : SKSpriteNode = SKSpriteNode(imageNamed: "player")
     let pauseButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
+    let restartButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
+    var myView : SKView! = nil
     override func sceneDidLoad() {
         circleSize = Int(size.width / 12)
         player.size = CGSize(width: 60, height: 60)
@@ -13,14 +15,29 @@ class GameScene: SKScene {
         player.run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addTopFlower),SKAction.wait(forDuration: 1.25)])))
         player.run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addBottomFlower),SKAction.wait(forDuration: 1.25)])))
         addChild(pauseButton)
+        addChild(restartButton)
+        restartButton.isHidden = true
         pauseButton.zPosition = 1.0
+        restartButton.zPosition = 1.0
+        pauseButton.position = CGPoint(x: 40, y: 40)
+        restartButton.position = CGPoint(x: (size.width / 2) - 80, y: size.height / 2)
+        pauseButton.alpha = 0.75
     }
     func pausePressed() {
         if self.isPaused {
             self.isPaused = false
+            restartButton.isHidden = true
+            pauseButton.alpha = 0.75
         } else {
             self.isPaused = true
+            restartButton.isHidden = false
+            pauseButton.alpha = 1.0
         }
+    }
+    func restartPressed() {
+        let newScene = GameScene(size: self.size)
+        newScene.myView = self.myView
+        myView.presentScene(newScene, transition: SKTransition())
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
@@ -29,6 +46,8 @@ class GameScene: SKScene {
         let touchLocation = touch.location(in: self)
         if pauseButton.frame.contains(touchLocation) {
             pausePressed()
+        } else if restartButton.frame.contains(touchLocation) && self.isPaused{
+            restartPressed()
         } else if touchLocation.x < size.width / 2 {
             player.run(SKAction.moveTo(x: size.width / 6, duration: 0.1))
         } else {
