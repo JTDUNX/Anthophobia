@@ -49,6 +49,9 @@ class GameScene: SKScene {
         newScene.myView = self.myView
         myView.presentScene(newScene, transition: SKTransition())
     }
+    func homePressed() {
+        
+    }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
             return
@@ -58,6 +61,8 @@ class GameScene: SKScene {
             pausePressed()
         } else if restartButton.frame.contains(touchLocation) && self.isPaused{
             restartPressed()
+        } else if homeButton.frame.contains(touchLocation) && self.isPaused{
+            homePressed()
         } else if touchLocation.x < size.width / 2 {
             player.run(SKAction.moveTo(x: size.width / 6, duration: 0.1))
         } else {
@@ -89,7 +94,7 @@ class GameScene: SKScene {
         }
         addChild(fallingFlower)
         let speed = TimeInterval(2 + Float(arc4random_uniform(4)) / 2)
-        fallingFlower.run(SKAction.moveTo(y: -(CGFloat)(circleSize), duration: speed))
+        fallingFlower.run(SKAction.sequence([SKAction.moveTo(y: -(CGFloat)(circleSize), duration: speed),SKAction.removeFromParent()]))
     }
     func addBottomFlower() {
         var risingFlower : SKSpriteNode!
@@ -110,6 +115,6 @@ class GameScene: SKScene {
         }
         addChild(risingFlower)
         let speed = TimeInterval(2 + Float(arc4random_uniform(4)) / 2)
-        risingFlower.run(SKAction.moveTo(y: size.height + (CGFloat)(circleSize), duration: speed))
+        risingFlower.run(SKAction.sequence([SKAction.moveTo(y: size.height + (CGFloat)(circleSize), duration: speed),SKAction.removeFromParent()]))
     }
 }
