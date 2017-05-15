@@ -7,7 +7,7 @@ class GameScene: SKScene {
     let pauseButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
     let restartButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
     let homeButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
-    var myView : SKView! = nil
+    var myView : GameView! = nil
     override func sceneDidLoad() {
         pauseButton.texture = SKTexture(imageNamed: "pause")
         restartButton.texture = SKTexture(imageNamed: "restart")
@@ -50,7 +50,7 @@ class GameScene: SKScene {
         myView.presentScene(newScene, transition: SKTransition())
     }
     func homePressed() {
-        
+        myView.myViewController.goBackHome()
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
