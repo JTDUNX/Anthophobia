@@ -15,6 +15,6 @@ class GameViewController : UIViewController {
     }
     func goBackHome() {
         //go to the home view controller
-        _ = self.navigationController?.popViewController(animated: true)
+        
     }
 }
