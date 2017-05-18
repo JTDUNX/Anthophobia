@@ -3,7 +3,7 @@ import UIKit
 import SpriteKit
 class GameViewController : UIViewController {
     var myGameView : GameView? = GameView()
-    override func viewDidLoad() {
+        override func viewDidLoad() {
         let screenSize : CGSize = self.view.frame.size
         let myGame = GameScene(size: screenSize)
         myGameView = GameView(frame: CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height))
@@ -14,7 +14,6 @@ class GameViewController : UIViewController {
         view.addSubview(myGameView!)
     }
     func goBackHome() {
-        //go to the home view controller
-        
+        performSegue(withIdentifier: "goToMenuFromGame", sender: self)
     }
 }

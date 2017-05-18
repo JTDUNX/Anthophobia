@@ -63,28 +63,13 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="hus-QM-aDL"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="goToMenuFromGame" id="znE-aK-JJh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="azm-1P-WFV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2236" y="-403"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="0Br-5r-4GS">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="emP-x8-L0T" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6Ek-YO-gXM">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="O47-aM-jrF"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yCh-on-hmK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="583" y="-510"/>
         </scene>
     </scenes>
 </document>

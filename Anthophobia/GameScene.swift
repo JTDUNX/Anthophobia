@@ -8,7 +8,11 @@ class GameScene: SKScene {
     let restartButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
     let homeButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
     var myView : GameView! = nil
+    var score : Int = 0
+    var highScore : Int = 0
     override func sceneDidLoad() {
+        let userDefaults = UserDefaults.standard
+        highScore = userDefaults.integer(forKey: "highScore")
         pauseButton.texture = SKTexture(imageNamed: "pause")
         restartButton.texture = SKTexture(imageNamed: "restart")
         homeButton.texture = SKTexture(imageNamed: "home")
