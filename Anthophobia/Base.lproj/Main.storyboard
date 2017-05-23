@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="NMh-b6-Cx4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,12 +22,44 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="0vO-dP-5wS">
+                                <rect key="frame" x="16" y="28" width="343" height="142"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="0vO-dP-5wS" secondAttribute="height" multiplier="343:142" id="3P9-WM-e0O"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5hM-w1-9YW">
+                                <rect key="frame" x="16" y="186" width="343" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QX3-rs-VuH">
+                                        <rect key="frame" x="0.0" y="0.0" width="171.5" height="30"/>
+                                        <state key="normal" title="Options"/>
+                                        <connections>
+                                            <segue destination="kLN-dB-mVd" kind="show" id="EJg-dE-Qvz"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i0M-w6-eSN">
+                                        <rect key="frame" x="171.5" y="0.0" width="171.5" height="30"/>
+                                        <state key="normal" title="Play"/>
+                                        <connections>
+                                            <segue destination="NMh-b6-Cx4" kind="show" animates="NO" id="97D-Dc-BlO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="0vO-dP-5wS" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="58G-CA-HIK"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="5hM-w1-9YW" secondAttribute="trailing" id="H5f-8L-sqQ"/>
+                            <constraint firstItem="0vO-dP-5wS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="QSc-Yd-7Qf"/>
+                            <constraint firstItem="5hM-w1-9YW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="hKK-vs-X5c"/>
+                            <constraint firstItem="0vO-dP-5wS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="iai-EC-Mut"/>
+                            <constraint firstItem="5hM-w1-9YW" firstAttribute="top" secondItem="0vO-dP-5wS" secondAttribute="bottom" constant="16" id="jaU-76-zgZ"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="eQa-VA-RMv"/>
-                    <connections>
-                        <segue destination="NMh-b6-Cx4" kind="show" identifier="goToGame" id="dix-MM-mta"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -72,4 +106,7 @@
             <point key="canvasLocation" x="2236" y="-403"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="logo" width="823" height="166"/>
+    </resources>
 </document>

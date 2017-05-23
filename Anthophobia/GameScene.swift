@@ -1,7 +1,7 @@
 import Foundation
 import SpriteKit
 
-class GameScene: SKScene {
+class GameScene: SKScene , SKPhysicsContactDelegate{
     var circleSize : Int = 0
     let player : SKSpriteNode = SKSpriteNode(imageNamed: "player")
     let pauseButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
@@ -10,9 +10,35 @@ class GameScene: SKScene {
     var myView : GameView! = nil
     var score : Int = 0
     var highScore : Int = 0
+    let scoreLabel = SKLabelNode(text: "Score: 0")
+    let highScoreLabel = SKLabelNode(text: "High Score: 0")
+    
+    let playerCategory : UInt32 = 0
+    let flowerCategory : UInt32 = 1
+    let coinCategory : UInt32 = 2
+    
     override func sceneDidLoad() {
+        scoreLabel.fontColor = UIColor.black
+        scoreLabel.fontSize = 20
+        scoreLabel.fontName = "Times New Roman"
+        scoreLabel.position = CGPoint(x: 5, y: size.height - 80)
+        scoreLabel.horizontalAlignmentMode = .left
+        scoreLabel.verticalAlignmentMode = .center
+        scoreLabel.zPosition = 1.0
+        highScoreLabel.fontColor = UIColor.black
+        highScoreLabel.fontSize = 20
+        highScoreLabel.fontName = "Times New Roman"
+        highScoreLabel.position = CGPoint(x: 5, y: size.height - 40)
+        highScoreLabel.horizontalAlignmentMode = .left
+        highScoreLabel.verticalAlignmentMode = .center
+        highScoreLabel.zPosition = 1.0
+        addChild(scoreLabel)
+        addChild(highScoreLabel)
+        self.backgroundColor = .white
+        self.physicsWorld.contactDelegate = self
         let userDefaults = UserDefaults.standard
         highScore = userDefaults.integer(forKey: "highScore")
+        highScoreLabel.text = "High Score: \(highScore)"
         pauseButton.texture = SKTexture(imageNamed: "pause")
         restartButton.texture = SKTexture(imageNamed: "restart")
         homeButton.texture = SKTexture(imageNamed: "home")
@@ -34,6 +60,39 @@ class GameScene: SKScene {
         restartButton.position = CGPoint(x: (size.width / 2) - 80, y: size.height / 2)
         homeButton.position = CGPoint(x: (size.width / 2) + 80, y: size.height / 2)
         pauseButton.alpha = 0.75
+        player.physicsBody = SKPhysicsBody(circleOfRadius: 30)
+        player.physicsBody?.categoryBitMask = playerCategory
+        player.physicsBody?.contactTestBitMask = flowerCategory | coinCategory
+        player.physicsBody?.affectedByGravity = false
+        player.physicsBody?.isDynamic = true
+
+    }
+    override func update(_ currentTime: TimeInterval) {
+        scoreLabel.text = "Score: \(score)"
+    }
+    func gameOver() {
+        if score > highScore{
+            updateHighScore()
+        }
+        pausePressed()
+        pauseButton.isHidden = true
+    }
+    func didBegin(_ contact: SKPhysicsContact) {
+        if (contact.bodyB.categoryBitMask == flowerCategory) &&
+            (contact.bodyA.categoryBitMask == playerCategory) {
+            gameOver()
+        }
+        if (contact.bodyA.categoryBitMask == playerCategory) &&
+            (contact.bodyB.categoryBitMask == coinCategory) {
+            contact.bodyB.node?.removeFromParent()
+            score += 1
+            scoreLabel.fontSize += 1
+        }
+    }
+    func updateHighScore() {
+        let userDefaults = UserDefaults.standard
+        userDefaults.set(score, forKey: "highScore")
+        userDefaults.synchronize()
     }
     func pausePressed() {
         if self.isPaused {
@@ -49,11 +108,13 @@ class GameScene: SKScene {
         }
     }
     func restartPressed() {
+        updateHighScore()
         let newScene = GameScene(size: self.size)
         newScene.myView = self.myView
         myView.presentScene(newScene, transition: SKTransition())
     }
     func homePressed() {
+        updateHighScore()
         myView.myViewController.goBackHome()
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -61,7 +122,7 @@ class GameScene: SKScene {
             return
         }
         let touchLocation = touch.location(in: self)
-        if pauseButton.frame.contains(touchLocation) {
+        if pauseButton.frame.contains(touchLocation) && pauseButton.isHidden == false{
             pausePressed()
         } else if restartButton.frame.contains(touchLocation) && self.isPaused{
             restartPressed()
@@ -82,13 +143,18 @@ class GameScene: SKScene {
     func addTopFlower() {
         var fallingFlower : SKSpriteNode!
         let coinCheck = Int(arc4random_uniform(6))
+        let isle = Int(arc4random_uniform(3))
         if coinCheck == 5 {
             fallingFlower = SKSpriteNode(imageNamed: "coin")
+            fallingFlower.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize))
+            fallingFlower.physicsBody?.categoryBitMask = coinCategory
         } else {
-           fallingFlower = SKSpriteNode(imageNamed: "redFlower")
+            fallingFlower = SKSpriteNode(imageNamed: "redFlower")
+            fallingFlower.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize))
+            fallingFlower.physicsBody?.categoryBitMask = flowerCategory
         }
+        fallingFlower.physicsBody?.isDynamic = false
         fallingFlower.size = CGSize(width: 60, height: 60)
-        let isle = Int(arc4random_uniform(3))
         if isle == 0 {
             fallingFlower.run(SKAction.moveBy(x: size.width / 6, y: size.height + (CGFloat)(circleSize), duration: 0.0))
         } else if isle == 1 {
@@ -105,9 +171,14 @@ class GameScene: SKScene {
         let coinCheck = Int(arc4random_uniform(6))
         if coinCheck == 5 {
             risingFlower = SKSpriteNode(imageNamed: "coin")
+            risingFlower.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize))
+            risingFlower.physicsBody?.categoryBitMask = coinCategory
         } else {
             risingFlower = SKSpriteNode(imageNamed: "redFlower")
+            risingFlower.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize))
+            risingFlower.physicsBody?.categoryBitMask = flowerCategory
         }
+        risingFlower.physicsBody?.isDynamic = false
         risingFlower.size = CGSize(width: 60, height: 60)
         let isle = Int(arc4random_uniform(3))
         if isle == 0 {
