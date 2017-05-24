@@ -14,6 +14,6 @@ class GameViewController : UIViewController {
         view.addSubview(myGameView!)
     }
     func goBackHome() {
-        performSegue(withIdentifier: "goToMenuFromGame", sender: self)
+        self.navigationController?.popViewController(animated: false)
     }
 }

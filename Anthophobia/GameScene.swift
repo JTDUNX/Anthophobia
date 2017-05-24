@@ -2,7 +2,7 @@ import Foundation
 import SpriteKit
 
 class GameScene: SKScene , SKPhysicsContactDelegate{
-    var circleSize : Int = 0
+    var circleSize : Double = 0
     let player : SKSpriteNode = SKSpriteNode(imageNamed: "player")
     let pauseButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
     let restartButton = SKSpriteNode(color: .green , size: CGSize(width: 80, height: 80))
@@ -42,8 +42,8 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         pauseButton.texture = SKTexture(imageNamed: "pause")
         restartButton.texture = SKTexture(imageNamed: "restart")
         homeButton.texture = SKTexture(imageNamed: "home")
-        circleSize = Int(size.width / 12)
-        player.size = CGSize(width: 60, height: 60)
+        circleSize = Double(size.width / 12)
+        player.size = CGSize(width: circleSize, height: circleSize)
         player.run(SKAction.move(to: CGPoint(x: size.width / 2, y: size.height / 2), duration: 0.0))
         addChild(player)
         player.run(SKAction.repeatForever(SKAction.sequence([SKAction.run(addTopFlower),SKAction.wait(forDuration: 1.25)])))
@@ -59,8 +59,7 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
         pauseButton.position = CGPoint(x: 40, y: 40)
         restartButton.position = CGPoint(x: (size.width / 2) - 80, y: size.height / 2)
         homeButton.position = CGPoint(x: (size.width / 2) + 80, y: size.height / 2)
-        pauseButton.alpha = 0.75
-        player.physicsBody = SKPhysicsBody(circleOfRadius: 30)
+        player.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize / 2))
         player.physicsBody?.categoryBitMask = playerCategory
         player.physicsBody?.contactTestBitMask = flowerCategory | coinCategory
         player.physicsBody?.affectedByGravity = false
@@ -70,17 +69,10 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
     override func update(_ currentTime: TimeInterval) {
         scoreLabel.text = "Score: \(score)"
     }
-    func gameOver() {
-        if score > highScore{
-            updateHighScore()
-        }
-        pausePressed()
-        pauseButton.isHidden = true
-    }
     func didBegin(_ contact: SKPhysicsContact) {
         if (contact.bodyB.categoryBitMask == flowerCategory) &&
             (contact.bodyA.categoryBitMask == playerCategory) {
-            gameOver()
+            homePressed()
         }
         if (contact.bodyA.categoryBitMask == playerCategory) &&
             (contact.bodyB.categoryBitMask == coinCategory) {
@@ -99,22 +91,24 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             self.isPaused = false
             restartButton.isHidden = true
             homeButton.isHidden = true
-            pauseButton.alpha = 0.75
         } else {
             self.isPaused = true
             restartButton.isHidden = false
             homeButton.isHidden = false
-            pauseButton.alpha = 1.0
         }
     }
     func restartPressed() {
-        updateHighScore()
+        if score > highScore{
+            updateHighScore()
+        }
         let newScene = GameScene(size: self.size)
         newScene.myView = self.myView
         myView.presentScene(newScene, transition: SKTransition())
     }
     func homePressed() {
-        updateHighScore()
+        if score > highScore{
+            updateHighScore()
+        }
         myView.myViewController.goBackHome()
     }
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -150,11 +144,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             fallingFlower.physicsBody?.categoryBitMask = coinCategory
         } else {
             fallingFlower = SKSpriteNode(imageNamed: "redFlower")
-            fallingFlower.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize))
+            fallingFlower.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize * 0.8))
             fallingFlower.physicsBody?.categoryBitMask = flowerCategory
         }
         fallingFlower.physicsBody?.isDynamic = false
-        fallingFlower.size = CGSize(width: 60, height: 60)
+        fallingFlower.size = CGSize(width: 2 * circleSize, height: 2 * circleSize)
         if isle == 0 {
             fallingFlower.run(SKAction.moveBy(x: size.width / 6, y: size.height + (CGFloat)(circleSize), duration: 0.0))
         } else if isle == 1 {
@@ -175,11 +169,11 @@ class GameScene: SKScene , SKPhysicsContactDelegate{
             risingFlower.physicsBody?.categoryBitMask = coinCategory
         } else {
             risingFlower = SKSpriteNode(imageNamed: "redFlower")
-            risingFlower.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize))
+            risingFlower.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(circleSize * 0.8))
             risingFlower.physicsBody?.categoryBitMask = flowerCategory
         }
         risingFlower.physicsBody?.isDynamic = false
-        risingFlower.size = CGSize(width: 60, height: 60)
+        risingFlower.size = CGSize(width: 2 * circleSize, height: 2 * circleSize)
         let isle = Int(arc4random_uniform(3))
         if isle == 0 {
             risingFlower.run(SKAction.moveBy(x: size.width / 6, y: -(CGFloat)(circleSize), duration: 0.0))
